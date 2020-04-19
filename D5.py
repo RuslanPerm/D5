@@ -3,12 +3,38 @@ class Shop:
         self.products = products
         self.coasts = coasts
         self.quantity = quantity
+        self.name, self.shop, self.product, self.count, self.save_check = None, None, None, None, None
 
     def counting(self):
         for i in range(len(self.quantity)):
             if self.quantity[i] == 0:
                 del self.products[i]
                 del self.coasts[i]
+
+    def user_buy(self, user_name, shop_name, product_name, count, save_check=False):
+        self.name = user_name
+        self.shop = shop_name
+        self.product = product_name
+        self.count = count
+        self.save_check = save_check
+
+    def save_changes(self, file_name):
+        pass
+
+    def load_data(self, file_name, rewrite=False):
+        pass
+
+    def find_product(self, product_name, count=-1):
+        pass
+
+    def find_products(self, products):
+        pass
+
+    def sort_shops_by_product_price(self, product):
+        pass
+
+    def sort_shops_by_product_count(self, product):
+        pass
 
 
 class Uyut(Shop):
