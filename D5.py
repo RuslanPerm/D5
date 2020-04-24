@@ -30,7 +30,7 @@ class Shop:
             for j in range(len(i.products)):
                 if (i.products[j] == product_name) and (i.quantity[j] > 0):
                     useful_shops.append(i)
-        print(useful_shops)
+        return useful_shops
 
 # по логике, в ходе работы программы, ошибок возникнуть не должно т.к. значениями i будут классы
 
@@ -45,7 +45,7 @@ class Shop:
             sorted_lst.append(i.coasts[i.products.index(product)])
             # берётся индекс искомого продукта из класса магазина из списка продуктов, и с таким же
             # индексом цена этого продукта из списка цен
-        print(sorted(sorted_lst))
+        return sorted(sorted_lst)
 
     def sort_shops_by_product_count(self, product):
         pass
