@@ -1,8 +1,8 @@
 class Shop:
-    def __init__(self, products, coasts, quantity):
-        self.products = products
-        self.coasts = coasts
-        self.quantity = quantity
+    def __init__(self):
+        self.products = None
+        self.coasts = None
+        self.quantity = None
         self.name, self.shop, self.product, self.count, self.save_check = None, None, None, None, None
 
     def counting(self):
@@ -25,13 +25,27 @@ class Shop:
         pass
 
     def find_product(self, product_name, count=-1):
-        pass
+        useful_shops = []
+        for i in shops:
+            for j in range(len(i.products)):
+                if (i.products[j] == product_name) and (i.quantity[j] > 0):
+                    useful_shops.append(i)
+        print(useful_shops)
+
+# по логике, в ходе работы программы, ошибок возникнуть не должно т.к. значениями i будут классы
 
     def find_products(self, products):
+        useful_shops = []
         pass
 
     def sort_shops_by_product_price(self, product):
-        pass
+        minimum, sorted_lst = 10 ** 19, []
+        shops_with_product = self.find_product(product) # ищет магазины, в которых есть этот продуктsss
+        for i in shops_with_product:
+            sorted_lst.append(i.coasts[i.products.index(product)])
+            # берётся индекс искомого продукта из класса магазина из списка продуктов, и с таким же
+            # индексом цена этого продукта из списка цен
+        print(sorted(sorted_lst))
 
     def sort_shops_by_product_count(self, product):
         pass
@@ -59,3 +73,9 @@ class Nezachetochka(Shop):
         self.products = ["круассан", "хлеб", "масло", "молоко", "вода", "чай", "йогурт", "маска", "мыло", "футболка"]
         self.coasts = [34, 20, 400, 50, 20, 100, 49, 99, 1999, 1]
         self.quantity = [8, 12, 50, 17, 100, 288, 43, 35, 9, 102323]
+
+
+shops = [Uyut, Prada, Nezachetochka]
+
+a = Shop()
+a.find_product("маска") # узнать как обращаться к элементам из других классов
