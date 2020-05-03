@@ -75,7 +75,15 @@ class Nezachetochka(Shop):
         self.quantity = [8, 12, 50, 17, 100, 288, 43, 35, 9, 102323]
 
 
-shops = [Uyut, Prada, Nezachetochka]
+class Bigboishop(Shop):
+    def __init__(self, products, coasts, quantity):
+        super().__init__(products, coasts, quantity)
+        self.products = ["Война и Мир", "Зверобой", "Do what u r", "STFU", "Самоделкин", "Мандалорец", "Волкодав"]
+        self.coasts = [5000, 3100, 1999, 300, 100, 9999, 2700]
+        self.quantity = [4, 9, 2, 10, 2, 4, 8]
+
+
+shops = [Uyut, Prada, Nezachetochka, Bigboishop]
 
 a = Shop()
 a.find_product("маска") # узнать как обращаться к элементам из других классов
