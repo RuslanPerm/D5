@@ -7,7 +7,9 @@ class Shop:
         self.name, self.shop, self.product, self.count, self.save_check = None, None, None, None, None
 
     def __str__(self):
-        return f"{self.__class__.__name__}\nproducts: {', '.join(map(str, self.products))} \nprices: {', '.join(map(str, self.prices))} \nquantity: {','.join(map(str, self.quantity))}\n"
+        return f"{self.__class__.__name__}"
+        # return f"{self.__class__.__name__}\nproducts: {', '.join(map(str, self.products))}
+        # \nprices: {', '.join(map(str, self.prices))} \nquantity: {','.join(map(str, self.quantity))}\n"
 
     def counting(self):
         for i in range(len(self.quantity)):
@@ -38,8 +40,6 @@ class Shop:
         #     print(k)
         print(*useful_shops, sep='\n')
         return useful_shops
-
-# по логике, в ходе работы программы, ошибок возникнуть не должно т.к. значениями i будут классы
 
     def find_products(self, products):
         useful_shops = []
@@ -77,7 +77,7 @@ class Prada(Shop):
 class Nezachetochka(Shop):
     def __init__(self):
         super().__init__()
-        self.products = ["круассан", "хлеб", "масло", "молоко", "вода", "чай", "йогурт", "маска", "мыло", "футболка"]
+        self.products = ["круассан", "хлеб", "масло", "молоко", "вода", "газеты", "йогурт", "маска", "мыло", "футболка"]
         self.prices = [34, 20, 400, 50, 20, 100, 49, 99, 1999, 1]
         self.quantity = [8, 12, 50, 17, 100, 288, 43, 35, 9, 102323]
 
@@ -85,7 +85,7 @@ class Nezachetochka(Shop):
 class Bigboishop(Shop):
     def __init__(self):
         super().__init__()
-        self.products = ["Война и Мир", "Зверобой", "Do what u r", "STFU", "Самоделкин", "Мандалорец", "Волкодав"]
+        self.products = ["Война и Мир", "Зверобой", "Do what u r", "STFU", "Мандалорец", "Волкодав", "газеты"]
         self.prices = [5000, 3100, 1999, 300, 100, 9999, 2700]
         self.quantity = [4, 9, 2, 10, 2, 4, 8]
 
