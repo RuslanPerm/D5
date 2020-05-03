@@ -86,4 +86,4 @@ class Bigboishop(Shop):
 shops = [Uyut, Prada, Nezachetochka, Bigboishop]
 
 a = Shop()
-a.find_product("маска") # узнать как обращаться к элементам из других классов
+a.find_product("маска")
