@@ -30,15 +30,14 @@ class Shop:
     def load_data(self, file_name, rewrite=False):
         pass
 
-    def find_product(self, product_name, count=-1):
+    def find_product(self, product_name, should_i_print=True):
         useful_shops = []
         for i in shops:
             for j in range(len(i.products)):
                 if (i.products[j] == product_name) and (i.quantity[j] > 0):
                     useful_shops.append(i)
-        # for k in useful_shops:
-        #     print(k)
-        print(*useful_shops, sep='\n')
+        if should_i_print is True:
+            print(*useful_shops, sep='\n')
         return useful_shops
 
     def find_products(self, products):
@@ -46,19 +45,24 @@ class Shop:
         pass
 
     def sort_shops_by_product_price(self, product):
-        minimum, sorted_lst = 10 ** 19, []
-        shops_with_product = self.find_product(product) # ищет магазины, в которых есть этот продуктsss
+        price_lst = []
+        shops_with_product = self.find_product(product, False) # ищет магазины, в которых есть этот продукт
         for i in shops_with_product:
-            sorted_lst.append(i.prices[i.products.index(product)])
+            price_lst.append(i.prices[i.products.index(product)])
             # берётся индекс искомого продукта из класса магазина из списка продуктов, и с таким же
             # индексом цена этого продукта из списка цен
-        print(sorted(sorted_lst))
+        for j in range(len(shops_with_product)):
+            print(f'{shops_with_product[price_lst.index(min(price_lst))]}: {min(price_lst)} рублей')
+            if len(price_lst) > 1:
+                index_for_delete = price_lst.index(min(price_lst))
+                price_lst.pop(index_for_delete)
+                shops_with_product.pop(index_for_delete)
 
     def sort_shops_by_product_count(self, product):
         pass
 
 
-class CleaningSnake(Shop):
+class Moydodyr(Shop):
     def __init__(self):
         super().__init__()
         self.products = ['моющее средство', 'мыло', 'маска', 'зубная паста', 'вода', 'шампунь', 'гель для душа']
@@ -69,8 +73,8 @@ class CleaningSnake(Shop):
 class Prada(Shop):
     def __init__(self):
         super().__init__()
-        self.products = ["сумка", "куртка", "маска", "шапка", "ремень", "кошель", "футболка", "платье"]
-        self.prices = [10000, 23000, 999990, 10, 3467, 9123, 4823, 79999]
+        self.products = ["сумка", "куртка", "маска", "шапка", "ремень", "кошель", "футболка", "STFU"]
+        self.prices = [10000, 23000, 9999, 10, 3467, 9123, 4823, 79999]
         self.quantity = [10, 2, 1, 3700, 12, 8, 1000]
 
 
@@ -85,12 +89,13 @@ class Nezachetochka(Shop):
 class Bigboishop(Shop):
     def __init__(self):
         super().__init__()
-        self.products = ["Война и Мир", "Зверобой", "Do what u r", "STFU", "Мандалорец", "Волкодав", "газеты"]
-        self.prices = [5000, 3100, 1999, 300, 100, 9999, 2700]
-        self.quantity = [4, 9, 2, 10, 2, 4, 8]
+        self.products = ["Война и Мир", "Зверобой", "Do what u r", "STFU", "Мандалорец", "Волкодав", "газеты", "маска"]
+        self.prices = [5000, 3100, 1999, 300, 100, 9999, 2700, 900]
+        self.quantity = [4, 9, 2, 10, 2, 4, 8, 1]
 
 
-shops = [CleaningSnake(), Prada(), Nezachetochka(), Bigboishop()]
+shops = [Moydodyr(), Prada(), Nezachetochka(), Bigboishop()]
 
 a = Shop()
-a.find_product("маска")
+# a.find_product("маска")
+a.sort_shops_by_product_price("Зверобой")
