@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class Shop:
     def __init__(self, products=None, prices=None, quantity=None):
         self.products = products
@@ -18,11 +21,14 @@ class Shop:
                 del self.prices[i]
 
     def user_buy(self, user_name, shop_name, product_name, count, save_check=False):
-        self.name = user_name
-        self.shop = shop_name
-        self.product = product_name
-        self.count = count
-        self.save_check = save_check
+        if shop_name.quantity[shop_name.products.index(product_name)] >= count:
+            shop_name.quantity[shop_name.products.index(product_name)] -= count
+            if save_check is True:
+                date_and_time = str(datetime.today()).split()
+                with open(f"{user_name}_{date_and_time[0]}_{date_and_time[1]}.txt", "w", encoding='utf-8') as file:
+                    file.write(f'купленный товар: {product_name}\nкол-во товара: {self.count}\n магазин: {shop_name}')
+                file.close()
+    # почему то тут ошибка
 
     def save_changes(self, file_name):
         pass
@@ -30,18 +36,21 @@ class Shop:
     def load_data(self, file_name, rewrite=False):
         pass
 
-    def find_product(self, product_name, should_i_print=True):
+    def find_product(self, product_name, should_i_print=True, count=0):
         useful_shops = []
         for i in shops:
             for j in range(len(i.products)):
-                if (i.products[j] == product_name) and (i.quantity[j] > 0):
+                if (i.products[j] == product_name) and (i.quantity[j] > count):
                     useful_shops.append(i)
         if should_i_print is True:
             print(*useful_shops, sep='\n')
         return useful_shops
 
     def find_products(self, products):
-        useful_shops = []
+        useful_shops = set()
+        black_list = []
+        for product in products:
+            shops_with_elem = self.find_product(product)
         pass
 
     def sort_shops_by_product_price(self, product):
@@ -59,7 +68,18 @@ class Shop:
                 shops_with_product.pop(index_for_delete)
 
     def sort_shops_by_product_count(self, product):
-        pass
+        quantity_lst = []
+        shops_with_product = self.find_product(product, False)  # ищет магазины, в которых есть этот продукт
+        for i in shops_with_product:
+            quantity_lst.append(i.quantity[i.products.index(product)])
+            # берётся индекс искомого продукта из класса магазина из списка продуктов, и с таким же
+            # индексом цена этого продукта из списка цен
+        for j in range(len(shops_with_product)):
+            print(f'{shops_with_product[quantity_lst.index(max(quantity_lst))]}: {max(quantity_lst)} штук')
+            if len(quantity_lst) > 1:
+                index_for_delete = quantity_lst.index(max(quantity_lst))
+                quantity_lst.pop(index_for_delete)
+                shops_with_product.pop(index_for_delete)
 
 
 class Moydodyr(Shop):
@@ -91,11 +111,13 @@ class Bigboishop(Shop):
         super().__init__()
         self.products = ["Война и Мир", "Зверобой", "Do what u r", "STFU", "Мандалорец", "Волкодав", "газеты", "маска"]
         self.prices = [5000, 3100, 1999, 300, 100, 9999, 2700, 900]
-        self.quantity = [4, 9, 2, 10, 2, 4, 8, 1]
+        self.quantity = [4, 9, 2, 10, 2, 4, 8, 42]
 
 
 shops = [Moydodyr(), Prada(), Nezachetochka(), Bigboishop()]
 
 a = Shop()
 # a.find_product("маска")
-a.sort_shops_by_product_price("Зверобой")
+# a.sort_shops_by_product_price("маска")
+# a.sort_shops_by_product_count('маска')
+a.user_buy('ruslan', Prada(), 'маска', 1, True)
