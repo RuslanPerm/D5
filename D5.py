@@ -39,7 +39,14 @@ class Shop:
                 file.close()
 
     def save_changes(self, file_name):
-        pass
+        with open(f"{file_name}.txt", "w", encoding='utf-8') as file:
+            for elem in shops:
+                file.write(f'В магазине {elem}:\n')
+                for _ in range(len(elem.products)-1):
+                    file.write(f'{elem.products[_]} - {elem.quantity[_]} штук\n')
+                file.write('\n')
+
+        file.close()
 
     def load_data(self, file_name, rewrite=False):
         pass
@@ -128,4 +135,5 @@ a = Shop()
 # a.find_product("маска")
 # a.sort_shops_by_product_price("маска")
 # a.sort_shops_by_product_count('маска')
-a.user_buy('ruslan', Prada(), 'маска', 1)
+a.user_buy('ruslan', Prada(), 'маска', 10)
+a.save_changes('data')
