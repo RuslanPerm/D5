@@ -25,10 +25,18 @@ class Shop:
             shop_name.quantity[shop_name.products.index(product_name)] -= count
             if save_check is True:
                 date_and_time = str(datetime.today()).split()
-                with open(f"{user_name}_{date_and_time[0]}_{date_and_time[1]}.txt", "w", encoding='utf-8') as file:
-                    file.write(f'купленный товар: {product_name}\nкол-во товара: {self.count}\n магазин: {shop_name}')
+
+                date = date_and_time[0]
+                time = date_and_time[1][:8]
+                time = [x for x in time]
+                for _ in time:
+                    if _ == ':':
+                        time[time.index(_)] = '-'
+                time = ''.join(time)
+
+                with open(f"{user_name}_{date}_{time}.txt", "w", encoding='utf-8') as file:
+                    file.write(f'купленный товар: {product_name}\nкол-во товара: {count}\nмагазин: {shop_name}')
                 file.close()
-    # почему то тут ошибка
 
     def save_changes(self, file_name):
         pass
@@ -120,4 +128,4 @@ a = Shop()
 # a.find_product("маска")
 # a.sort_shops_by_product_price("маска")
 # a.sort_shops_by_product_count('маска')
-a.user_buy('ruslan', Prada(), 'маска', 1, True)
+a.user_buy('ruslan', Prada(), 'маска', 1)
