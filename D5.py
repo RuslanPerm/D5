@@ -21,22 +21,29 @@ class Shop:
                 del self.prices[i]
 
     def user_buy(self, user_name, shop_name, product_name, count, save_check=False):
-        if shop_name.quantity[shop_name.products.index(product_name)] >= count:
-            shop_name.quantity[shop_name.products.index(product_name)] -= count
-            if save_check is True:
-                date_and_time = str(datetime.today()).split()
+        if count > 0:
+            if shop_name.quantity[shop_name.products.index(product_name)] >= count:
+                print(shop_name.quantity[shop_name.products.index(product_name)])
+                shop_name.quantity[shop_name.products.index(product_name)] -= count
+                print(shop_name.quantity[shop_name.products.index(product_name)])
+                if save_check is True:
+                    date_and_time = str(datetime.today()).split()
 
-                date = date_and_time[0]
-                time = date_and_time[1][:8]
-                time = [x for x in time]
-                for _ in time:
-                    if _ == ':':
-                        time[time.index(_)] = '-'
-                time = ''.join(time)
+                    date = date_and_time[0]
+                    time = date_and_time[1][:8]
+                    time = [x for x in time]
+                    for _ in time:
+                        if _ == ':':
+                            time[time.index(_)] = '-'
+                    time = ''.join(time)
 
-                with open(f"{user_name}_{date}_{time}.txt", "w", encoding='utf-8') as file:
-                    file.write(f'купленный товар: {product_name}\nкол-во товара: {count}\nмагазин: {shop_name}')
-                file.close()
+                    with open(f"{user_name}_{date}_{time}.txt", "w", encoding='utf-8') as file:
+                        file.write(f'купленный товар: {product_name}\nкол-во товара: {count}\nмагазин: {shop_name}')
+                    file.close()
+            else:
+                print("В магазине меньшее кол-во товара, что Вы просите")
+        else:
+            print("Не вижу смысла в Вашей покупке")
 
     def save_changes(self, file_name):
         with open(f"{file_name}.txt", "w", encoding='utf-8') as file:
@@ -135,5 +142,6 @@ a = Shop()
 # a.find_product("маска")
 # a.sort_shops_by_product_price("маска")
 # a.sort_shops_by_product_count('маска')
-a.user_buy('ruslan', Prada(), 'маска', 10)
-a.save_changes('data')
+a.user_buy('ruslan', Nezachetochka(), 'маска', 6)
+# print(Nezachetochka().quantity[Nezachetochka().products.index('маска')])
+# a.save_changes('data')
