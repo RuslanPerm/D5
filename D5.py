@@ -5,7 +5,6 @@ class Shop:
     def __init__(self, products=None, prices=None, quantity=None):
         self.products = products
         self.prices = prices
-        self.prices = prices
         self.quantity = quantity
         self.name, self.shop, self.product, self.count, self.save_check = None, None, None, None, None
 
@@ -70,10 +69,17 @@ class Shop:
 
     def find_products(self, products):
         useful_shops = set()
-        black_list = []
+        black_lst = set()
         for product in products:
-            shops_with_elem = self.find_product(product)
-        pass
+            shops_w_dis_prod = self.find_product(product)
+            for shop in shops:
+                if (shop in shops_w_dis_prod) and (shop not in black_lst):
+                    useful_shops.add(shop)
+                elif shop not in shops_w_dis_prod:
+                    black_lst.add(shop)
+            print(shops_w_dis_prod)
+        print(useful_shops)
+        print(*black_lst)
 
     def sort_shops_by_product_price(self, product):
         price_lst = []
@@ -140,8 +146,9 @@ shops = [Moydodyr(), Prada(), Nezachetochka(), Bigboishop()]
 
 a = Shop()
 # a.find_product("маска")
+a.find_products("маска")
 # a.sort_shops_by_product_price("маска")
 # a.sort_shops_by_product_count('маска')
-a.user_buy('ruslan', Nezachetochka(), 'маска', 6)
+# a.user_buy('ruslan', Nezachetochka(), 'маска', 6)
 # print(Nezachetochka().quantity[Nezachetochka().products.index('маска')])
 # a.save_changes('data')
