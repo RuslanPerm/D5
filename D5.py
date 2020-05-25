@@ -6,6 +6,7 @@ class Shop:
         self.products = products
         self.prices = prices
         self.quantity = quantity
+        self.name = name
         self.shop, self.product, self.count, self.save_check = None, None, None, None
 
     def __str__(self):
@@ -92,7 +93,7 @@ def buy(shop, product, count, user_name, save_check=False):
 
 
 def save_changes(file_name):
-    file = open(file_name + '.txt', 'w')
+    file = open(file_name + '.txt', 'w', encoding='utf-8')
     for shop in shops:
         products = ' '.join(shop.products)
         file.write(products + str(shop.prices) + str(shop.quantity) + shop.name + '\n')
