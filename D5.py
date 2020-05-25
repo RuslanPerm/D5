@@ -6,7 +6,7 @@ class Shop:
         self.products = products
         self.prices = prices
         self.quantity = quantity
-        self.name, self.shop, self.product, self.count, self.save_check = None, None, None, None, None
+        self.shop, self.product, self.count, self.save_check = None, None, None, None
 
     def __str__(self):
         return f"{self.__class__.__name__}"
@@ -20,9 +20,13 @@ class Shop:
                 del self.prices[i]
 
     def user_buy(self, product_name, count, user_name, save_check=False):
+        index = 0
+        while product_name != self.products[index]:
+            index += 1
+
         if count > 0:
-            if self.quantity >= count:
-                self.quantity -= count
+            if self.quantity[index] >= count:
+                self.quantity[index] -= count
             if save_check is True:
                 date_and_time = str(datetime.today()).split()
                 date = date_and_time[0]
@@ -34,7 +38,7 @@ class Shop:
                 time = ''.join(time)
 
                 with open(f"{user_name}_{date}_{time}.txt", "w", encoding='utf-8') as file:
-                    file.write(f'купленный товар: {product_name}\nкол-во товара: {count}\nмагазин: {shop_name}')
+                    file.write(f'купленный товар: {product_name}\nкол-во товара: {count}\nмагазин: {self.name}')
                 file.close()
             else:
                 print("В магазине меньшее кол-во товара, что Вы просите")
@@ -118,6 +122,6 @@ shops = [
          'data')
 ]
 
-buy(shops[1], 'маска', 3, True, 'Dima')
+buy(shops[1], 'маска', 3, 'Dima', True)
 # print(Nezachetochka().quantity[Nezachetochka().products.index('маска')])
 save_changes('data2')
