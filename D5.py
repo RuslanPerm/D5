@@ -11,14 +11,6 @@ class Shop:
 
     def __str__(self):
         return f"{self.__class__.__name__}"
-        # return f"{self.__class__.__name__}\nproducts: {', '.join(map(str, self.products))}
-        # \nprices: {', '.join(map(str, self.prices))} \nquantity: {','.join(map(str, self.quantity))}\n"
-
-    def counting(self):
-        for i in range(len(self.quantity)):
-            if self.quantity[i] == 0:
-                del self.products[i]
-                del self.prices[i]
 
     def user_buy(self, product_name, count, user_name, save_check=False):
         index = 0
@@ -28,6 +20,8 @@ class Shop:
         if count > 0:
             if self.quantity[index] >= count:
                 self.quantity[index] -= count
+            else:
+                print("В магазине меньшее кол-во товара, что Вы просите")
             if save_check is True:
                 date_and_time = str(datetime.today()).split()
                 date = date_and_time[0]
@@ -41,10 +35,14 @@ class Shop:
                 with open(f"{user_name}_{date}_{time}.txt", "w", encoding='utf-8') as file:
                     file.write(f'купленный товар: {product_name}\nкол-во товара: {count}\nмагазин: {self.name}')
                 file.close()
-            else:
-                print("В магазине меньшее кол-во товара, что Вы просите")
         else:
             print("Не вижу смысла в Вашей покупке")
+
+    def counting(self):
+        for i in range(len(self.quantity)):
+            if self.quantity[i] == 0:
+                del self.products[i]
+                del self.prices[i]
 
     def find_product(self, product_name, should_i_print=True, count=0):
         useful_shops = []
@@ -137,9 +135,9 @@ shops = [
     Shop(["croissant", "bread", "butter", "milk", "water", "newspapers", "yogurt", "mask", "soap", "t-shirt"],
          [34, 20, 400, 50, 20, 100, 49, 99, 1999, 1],
          [8, 12, 50, 17, 100, 288, 43, 35, 9, 102323],
-         'data')
+         'Nezachetochka')
 ]
 
-buy(shops[1], 'маска', 3, 'Dima')
+buy(shops[3], 'water', 2, 'Kirill', True)
 # print(Nezachetochka().quantity[Nezachetochka().products.index('маска')])
 save_changes('data')
