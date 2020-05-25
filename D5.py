@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 class Shop:
-    def __init__(self, products=None, prices=None, quantity=None):
+    def __init__(self, products, prices, quantity, name):
         self.products = products
         self.prices = prices
         self.quantity = quantity
@@ -44,19 +44,6 @@ class Shop:
         else:
             print("Не вижу смысла в Вашей покупке")
 
-    def save_changes(self, file_name):
-        with open(f"{file_name}.txt", "w", encoding='utf-8') as file:
-            for elem in shops:
-                file.write(f'В магазине {elem}:\n')
-                for _ in range(len(elem.products)-1):
-                    file.write(f'{elem.products[_]} - {elem.quantity[_]} штук\n')
-                file.write('\n')
-
-        file.close()
-
-    def load_data(self, file_name, rewrite=False):
-        pass
-
     def find_product(self, product_name, should_i_print=True, count=0):
         useful_shops = []
         for i in shops:
@@ -68,18 +55,7 @@ class Shop:
         return useful_shops
 
     def find_products(self, products):
-        useful_shops = set()
-        black_lst = set()
-        for product in products:
-            shops_w_dis_prod = self.find_product(product)
-            for shop in shops:
-                if (shop in shops_w_dis_prod) and (shop not in black_lst):
-                    useful_shops.add(shop)
-                elif shop not in shops_w_dis_prod:
-                    black_lst.add(shop)
-            print(shops_w_dis_prod)
-        print(useful_shops)
-        print(*black_lst)
+        pass
 
     def sort_shops_by_product_price(self, product):
         price_lst = []
@@ -110,45 +86,26 @@ class Shop:
                 shops_with_product.pop(index_for_delete)
 
 
-class Moydodyr(Shop):
-    def __init__(self):
-        super().__init__()
-        self.products = ['моющее средство', 'мыло', 'маска', 'зубная паста', 'вода', 'шампунь', 'гель для душа']
-        self.prices = [300, 100, 5000, 58, 7, 120, 300]
-        self.quantity = [18, 50, 102, 33, 78, 4, 80]
+Moydodyr = Shop(['моющее средство', 'мыло', 'маска', 'зубная паста', 'вода', 'шампунь', 'гель для душа'], [300, 100, 5000, 58, 7, 120, 300], [18, 50, 102, 33, 78, 4, 80], 'data')
+Bigboishop = Shop(["Война и Мир", "Зверобой", "Do what u r", "STFU", "Мандалорец", "Волкодав", "газеты", "маска"], [5000, 3100, 1999, 300, 100, 9999, 2700, 900], [4, 9, 2, 10, 2, 4, 8, 42], 'data')
+Prada = Shop(["сумка", "куртка", "маска", "шапка", "ремень", "кошель", "футболка", "STFU"], [10000, 23000, 9999, 10, 3467, 9123, 4823, 79999], [10, 2, 1, 3700, 12, 8, 1000], 'data')
+Nezachetochka = Shop(["croissant", "bread", "butter", "milk", "water", "newspapers", "yogurt", "mask", "soap", "t-shirt"], [34, 20, 400, 50, 20, 100, 49, 99, 1999, 1], [8, 12, 50, 17, 100, 288, 43, 35, 9, 102323], 'data')
 
 
-class Prada(Shop):
-    def __init__(self):
-        super().__init__()
-        self.products = ["сумка", "куртка", "маска", "шапка", "ремень", "кошель", "футболка", "STFU"]
-        self.prices = [10000, 23000, 9999, 10, 3467, 9123, 4823, 79999]
-        self.quantity = [10, 2, 1, 3700, 12, 8, 1000]
+def save_changes(file_name):
+    file = open(file_name + '.txt', 'w')
+    for shop in shops:
+        products = ' '.join(shop.products)
+        file.write(products + str(shop.prices) + str(shop.quantity) + shop.name + '\n')
+    file.close()
 
 
-class Nezachetochka(Shop):
-    def __init__(self):
-        super().__init__()
-        self.products = ["круассан", "хлеб", "масло", "молоко", "вода", "газеты", "йогурт", "маска", "мыло", "футболка"]
-        self.prices = [34, 20, 400, 50, 20, 100, 49, 99, 1999, 1]
-        self.quantity = [8, 12, 50, 17, 100, 288, 43, 35, 9, 102323]
+def load_data(file_name, rewrite=False):
+    pass
 
 
-class Bigboishop(Shop):
-    def __init__(self):
-        super().__init__()
-        self.products = ["Война и Мир", "Зверобой", "Do what u r", "STFU", "Мандалорец", "Волкодав", "газеты", "маска"]
-        self.prices = [5000, 3100, 1999, 300, 100, 9999, 2700, 900]
-        self.quantity = [4, 9, 2, 10, 2, 4, 8, 42]
+shops = [Moydodyr, Prada, Nezachetochka, Bigboishop]
 
-
-shops = [Moydodyr(), Prada(), Nezachetochka(), Bigboishop()]
-
-a = Shop()
-# a.find_product("маска")
-a.find_products("маска")
-# a.sort_shops_by_product_price("маска")
-# a.sort_shops_by_product_count('маска')
-# a.user_buy('ruslan', Nezachetochka(), 'маска', 6)
+Bigboishop.user_buy('ruslan', Nezachetochka, 'маска', 6)
 # print(Nezachetochka().quantity[Nezachetochka().products.index('маска')])
-# a.save_changes('data')
+save_changes('data2')
