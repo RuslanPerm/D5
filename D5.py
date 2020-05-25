@@ -19,26 +19,23 @@ class Shop:
                 del self.products[i]
                 del self.prices[i]
 
-    def user_buy(self, user_name, shop_name, product_name, count, save_check=False):
+    def user_buy(self, product_name, count, user_name, save_check=False):
         if count > 0:
-            if shop_name.quantity[shop_name.products.index(product_name)] >= count:
-                print(shop_name.quantity[shop_name.products.index(product_name)])
-                shop_name.quantity[shop_name.products.index(product_name)] -= count
-                print(shop_name.quantity[shop_name.products.index(product_name)])
-                if save_check is True:
-                    date_and_time = str(datetime.today()).split()
+            if self.quantity >= count:
+                self.quantity -= count
+            if save_check is True:
+                date_and_time = str(datetime.today()).split()
+                date = date_and_time[0]
+                time = date_and_time[1][:8]
+                time = [x for x in time]
+                for _ in time:
+                    if _ == ':':
+                        time[time.index(_)] = '-'
+                time = ''.join(time)
 
-                    date = date_and_time[0]
-                    time = date_and_time[1][:8]
-                    time = [x for x in time]
-                    for _ in time:
-                        if _ == ':':
-                            time[time.index(_)] = '-'
-                    time = ''.join(time)
-
-                    with open(f"{user_name}_{date}_{time}.txt", "w", encoding='utf-8') as file:
-                        file.write(f'купленный товар: {product_name}\nкол-во товара: {count}\nмагазин: {shop_name}')
-                    file.close()
+                with open(f"{user_name}_{date}_{time}.txt", "w", encoding='utf-8') as file:
+                    file.write(f'купленный товар: {product_name}\nкол-во товара: {count}\nмагазин: {shop_name}')
+                file.close()
             else:
                 print("В магазине меньшее кол-во товара, что Вы просите")
         else:
@@ -86,10 +83,8 @@ class Shop:
                 shops_with_product.pop(index_for_delete)
 
 
-Moydodyr = Shop(['моющее средство', 'мыло', 'маска', 'зубная паста', 'вода', 'шампунь', 'гель для душа'], [300, 100, 5000, 58, 7, 120, 300], [18, 50, 102, 33, 78, 4, 80], 'data')
-Bigboishop = Shop(["Война и Мир", "Зверобой", "Do what u r", "STFU", "Мандалорец", "Волкодав", "газеты", "маска"], [5000, 3100, 1999, 300, 100, 9999, 2700, 900], [4, 9, 2, 10, 2, 4, 8, 42], 'data')
-Prada = Shop(["сумка", "куртка", "маска", "шапка", "ремень", "кошель", "футболка", "STFU"], [10000, 23000, 9999, 10, 3467, 9123, 4823, 79999], [10, 2, 1, 3700, 12, 8, 1000], 'data')
-Nezachetochka = Shop(["croissant", "bread", "butter", "milk", "water", "newspapers", "yogurt", "mask", "soap", "t-shirt"], [34, 20, 400, 50, 20, 100, 49, 99, 1999, 1], [8, 12, 50, 17, 100, 288, 43, 35, 9, 102323], 'data')
+def buy(shop, product, count, user_name, save_check=False):
+    shop.user_buy(product, count, user_name, save_check=save_check)
 
 
 def save_changes(file_name):
@@ -104,8 +99,25 @@ def load_data(file_name, rewrite=False):
     pass
 
 
-shops = [Moydodyr, Prada, Nezachetochka, Bigboishop]
+shops = [
+    Shop(['моющее средство', 'мыло', 'маска', 'зубная паста', 'вода', 'шампунь', 'гель для душа'],
+         [300, 100, 5000, 58, 7, 120, 300],
+         [18, 50, 102, 33, 78, 4, 80],
+         'Moydodyr'),
+    Shop(["Война и Мир", "Зверобой", "Do what u r", "STFU", "Мандалорец", "Волкодав", "газеты", "маска"],
+         [5000, 3100, 1999, 300, 100, 9999, 2700, 900],
+         [4, 9, 2, 10, 2, 4, 8, 42],
+         'Bigboyshop'),
+    Shop(["сумка", "куртка", "маска", "шапка", "ремень", "кошель", "футболка", "STFU"],
+         [10000, 23000, 9999, 10, 3467, 9123, 4823, 79999],
+         [10, 2, 1, 3700, 12, 8, 1000],
+         'Prada'),
+    Shop(["croissant", "bread", "butter", "milk", "water", "newspapers", "yogurt", "mask", "soap", "t-shirt"],
+         [34, 20, 400, 50, 20, 100, 49, 99, 1999, 1],
+         [8, 12, 50, 17, 100, 288, 43, 35, 9, 102323],
+         'data')
+]
 
-Bigboishop.user_buy('ruslan', Nezachetochka, 'маска', 6)
+buy(shops[1], 'маска', 3, True, 'Dima')
 # print(Nezachetochka().quantity[Nezachetochka().products.index('маска')])
 save_changes('data2')
