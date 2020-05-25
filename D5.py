@@ -95,13 +95,30 @@ def buy(shop, product, count, user_name, save_check=False):
 def save_changes(file_name):
     file = open(file_name + '.txt', 'w', encoding='utf-8')
     for shop in shops:
-        products = ' '.join(shop.products)
-        file.write(products + str(shop.prices) + str(shop.quantity) + shop.name + '\n')
+        products = ','.join(shop.products)
+        file.write(';'.join([shop.name, products, str(shop.prices), str(shop.quantity)]) + '\n')
     file.close()
 
 
 def load_data(file_name, rewrite=False):
-    pass
+    with open(file_name + '.txt', 'r', encoding='utf-8') as f:
+        for line in f.readlines():
+            line = line.split(';')
+            name = line[0]
+            products = line[1].split(',')
+            prices = list(map(int, line[2][1:-1].split(', ')))
+            quantity = list(map(int, line[3][1:-1].split(', ')))
+
+            for shop in shops:
+                if shop.name == name:
+                    if rewrite:
+                        shop.products = products
+                        shop.prices = prices
+                        shop.quantity = quantity
+                    else:
+                        shop.products.extend(products)
+                        shop.prices.extend(prices)
+                        shop.quantity.extend(quantity)
 
 
 shops = [
@@ -123,6 +140,6 @@ shops = [
          'data')
 ]
 
-buy(shops[1], 'маска', 3, 'Dima', True)
+buy(shops[1], 'маска', 3, 'Dima')
 # print(Nezachetochka().quantity[Nezachetochka().products.index('маска')])
-save_changes('data2')
+save_changes('data')
